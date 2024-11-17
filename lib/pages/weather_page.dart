@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/services/weather_service.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({super.key});
@@ -58,16 +59,64 @@ class _WeatherPageState extends State<WeatherPage> {
     _fetchWeather();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      backgroundColor: Colors.grey[850],
+      body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(_weather?.cityName ?? "loading city.."),
-            Lottie.asset(getWeatherAnimation(_weather?.mainCondition)),
-            Text('${_weather?.temperature.round()}' 'C'),
-            Text(_weather?.mainCondition ?? ""),
+            // Location display
+            Padding(
+              padding: const EdgeInsets.only(top: 64.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.location_on,
+                      size: 28, color: Colors.white), // Icon on top
+                  const SizedBox(height: 8), // Space between icon and text
+                  Text(
+                    _weather?.cityName ?? "Loading city...",
+                    style: GoogleFonts.bebasNeue(
+                      fontSize: 40,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+                height: 16), // Space between the location and the rest
+
+            // Weather information
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 64),
+                      child: Lottie.asset(
+                          getWeatherAnimation(_weather?.mainCondition)),
+                    ),
+                    Text(
+                      '${_weather?.temperature.round()}°C',
+                      style: GoogleFonts.bebasNeue(
+                        fontSize: 32,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      _weather?.mainCondition ?? "",
+                      style: GoogleFonts.bebasNeue(
+                        fontSize: 24,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
